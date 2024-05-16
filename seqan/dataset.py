@@ -53,72 +53,6 @@ from .plots import Plot
 
 DataTypes = dict | Sequence_Manager_Data | str | Path
 
-# =============================================================================
-# FUNCTIONS -
-# =============================================================================
-
-def merge_datasets(datasets: tuple,
-                   newname: str = "merged datasets",
-                   tol: float = 1e-3)-> dict:
-    """
-    TODO doc
-
-    Parameters
-    ----------
-    datasets : tuple
-        DESCRIPTION.
-    newname : str, optional
-        DESCRIPTION. The default is "merged datasets".
-
-    Raises
-    ------
-    ValueError
-        DESCRIPTION.
-
-    Returns
-    -------
-    dict
-        DESCRIPTION.
-
-    """
-    if len(datasets) == 0:
-        raise ValueError("must provide at least one Data_Set")
-    # compatibility checks
-    ds0 = datasets[0]
-    for ds in datasets:
-        if (ds0._data_type, ds._data_type) != ("atom_stats",)*2:
-            raise ValueError("merge_with not implemented for data type "
-                             "other than `atom_stats`")
-    if (vn0:=ds0.varname) != (vn1:=ds.varname):
-        warnings.warn(f"varname are different: {vn0} and {vn1}",
-                      UserWarning)
-    if (vu0:=ds0.varunit) != (vu1:=ds.varunit):
-        raise ValueError(f"incompatible varunit: {vu0} and {vu1}")
-
-    # Initialize output data dict
-    DSdict = {
-        'data_type': np.array("atom_stats"),
-        'name': np.array(newname),
-        'varname': np.array(ds0.varname),
-        'raw_varunit': np.array(ds0.varunit),
-        }
-    # merged x-values
-    new_xvals, idx = merge_xvalues([ds.xvalues for ds in datasets], tol=tol)
-    DSdict['raw_xvalues'] = new_xvals
-    # merged data
-    merged_data = merge_stats([ds.data for ds in datasets], idx)
-    for k, v in merged_data.items():
-        DSdict['data.' + k] = np.array(v)
-    # merged parameters
-    merged_params = {}
-    for ds in datasets:
-        merged_params |= ds.parameters
-    DSdict['nb_parameters'] = len(merged_params)
-    for k, v in merged_params.items():
-        DSdict['parameters.' + k] = np.array(v)
-    
-    return Data_Set(source=DSdict)
-
 
 # =============================================================================
 #
@@ -886,8 +820,70 @@ class Data_Set():
         #
         return DSplot
 
+# =============================================================================
+# FUNCTIONS -
+# =============================================================================
 
+def merge_datasets(datasets: list[Data_Set],
+                   newname: str = "merged datasets",
+                   tol: float = 1e-3)-> dict:
+    """
+    TODO doc
 
+    Parameters
+    ----------
+    datasets : list[Data_Set]
+        DESCRIPTION.
+    newname : str, optional
+        DESCRIPTION. The default is "merged datasets".
+    tol : float, optional
+        DESCRIPTION. The default is 1e-3.
 
+    Raises
+    ------
+    ValueError
+        DESCRIPTION.
 
+    Returns
+    -------
+    dict
+        DESCRIPTION.
 
+    """
+    if len(datasets) == 0:
+        raise ValueError("must provide at least one Data_Set")
+    # compatibility checks
+    ds0 = datasets[0]
+    for ds in datasets:
+        if (ds0._data_type, ds._data_type) != ("atom_stats",)*2:
+            raise ValueError("merge_with not implemented for data type "
+                             "other than `atom_stats`")
+    if (vn0:=ds0.varname) != (vn1:=ds.varname):
+        warnings.warn(f"varname are different: {vn0} and {vn1}",
+                      UserWarning)
+    if (vu0:=ds0.varunit) != (vu1:=ds.varunit):
+        raise ValueError(f"incompatible varunit: {vu0} and {vu1}")
+
+    # Initialize output data dict
+    DSdict = {
+        'data_type': np.array("atom_stats"),
+        'name': np.array(newname),
+        'varname': np.array(ds0.varname),
+        'raw_varunit': np.array(ds0.varunit),
+        }
+    # merged x-values
+    new_xvals, idx = merge_xvalues([ds.xvalues for ds in datasets], tol=tol)
+    DSdict['raw_xvalues'] = new_xvals
+    # merged data
+    merged_data = merge_stats([ds.data for ds in datasets], idx)
+    for k, v in merged_data.items():
+        DSdict['data.' + k] = np.array(v)
+    # merged parameters
+    merged_params = {}
+    for ds in datasets:
+        merged_params |= ds.parameters
+    DSdict['nb_parameters'] = len(merged_params)
+    for k, v in merged_params.items():
+        DSdict['parameters.' + k] = np.array(v)
+    
+    return Data_Set(source=DSdict)
