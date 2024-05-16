@@ -186,7 +186,7 @@ A new Data_Set is created with scanned values corresponding to the distinct
 values of the combined datasets. At identical scanned points, the event counts
 are summed to improve the signal to noise ratio.
 """
-merged_ds = sa.merge_datasets((ds_avg, ds_avg, ds_avg), newname="merged stuff")
+merged_ds = sa.merge_datasets([ds_avg, ds_avg, ds_avg], newname="merged stuff")
 
 
 
