@@ -17,3 +17,17 @@ The package provides:
 The code was written while I was rushing to finish writting my thesis. Although it was extensively tested and is provided with some examples, the  code is somewhat lacking documentation and could be improved.
 
 I do not maintain this code anymore.
+
+
+## Dependencies
+
+This package requires Python > 3.10 and the following packages:
+- [numpy](https://numpy.org/)
+- [scipy](https://scipy.org/) (special functions and data fitting)
+- [matplotlib](https://matplotlib.org/)
+- [pandas](https://pandas.pydata.org/) (file loading)
+
+
+## Notes
+
+The typing annotations in the code are by no means rigorous. They are made to facilitate the understanding of the nature of various parameters.
