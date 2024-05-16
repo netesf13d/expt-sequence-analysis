@@ -1,0 +1,29 @@
+{
+    "path": "./Rabi_",
+    "name": "Rabi",
+    "date": "0000-00-00 00:00:00",
+    "nbROI": 18,
+    "ROIshape": [
+        3,
+        6
+    ],
+    "nbframes": 32562,
+    "frameperrun": 2,
+    "nbcframes": 16281,
+    "deletionslice": [],
+    "scan": true,
+    "trigmiss": 1,
+    "nbsweep": 1,
+    "reppersweep": 200,
+    "nbstep": 81,
+    "nbrep": 200,
+    "step": 0.1,
+    "vari": 0.1,
+    "varf": 8.1,
+    "varname": "laser pulse duration",
+    "varunit": "us",
+    "calib": "",
+    "calibvarunit": "None",
+    "parameters": {},
+    "info": "Rabi"
+}
