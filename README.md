@@ -19,13 +19,24 @@ The code was written while I was rushing to finish writting my thesis. Although 
 I do not maintain this code anymore.
 
 
-## Dependencies
+## Usage
 
-This package requires Python > 3.10 and the following packages:
-- [numpy](https://numpy.org/)
-- [scipy](https://scipy.org/) (special functions and data fitting)
-- [matplotlib](https://matplotlib.org/)
-- [pandas](https://pandas.pydata.org/) (file loading)
+Setup the Python environment to run the examples.
+- With `pip`,
+  ```bash
+  pip install -r requirements.txt
+  ```
+- Using `conda`,
+  ```bash
+  conda create --name <env_name> --file requirements.txt
+  conda activate <env_name>
+  ```
+- Using `uv`,
+  ```bash
+  uv venv .venv
+  source .venv/bin/activate   # On Windows: .venv\Scripts\activate
+  uv pip install -r requirements.txt
+  ```
 
 
 ## Notes
